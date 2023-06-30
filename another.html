@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Picture Gallery</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Custom styles */
+    .gallery-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 10px;
+
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Add more custom styles as needed */
+  </style>
+</head>
+
+<body>
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Gallery App</a>
+  </nav>
+
+  <!-- Landing page -->
+  <div class="container mt-5">
+    <h1>Welcome to the Picture Gallery</h1>
+    <p>Check out our collection of beautiful pictures!</p>
+  </div>
+
+  <!-- Picture section -->
+  <div class="container">
+    <div class="gallery-container">
+      <!-- Images will be dynamically added here using JavaScript -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-3 mt-5">
+    <p>Gallery App &copy; 2023</p>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // Fetch images from the API and create gallery items
+    axios.get('https://jsonplaceholder.typicode.com/photos')
+      .then(function(response) {
+        const photos = response.data.slice(0, 10); // Limiting to 10 photos for this example
+        const galleryContainer = document.querySelector('.gallery-container');
+
+        photos.forEach(function(photo) {
+          const galleryItem = document.createElement('div');
+          galleryItem.classList.add('gallery-item');
+          galleryItem.innerHTML = `<img src="${photo.url}" alt="${photo.title}">`;
+          galleryContainer.appendChild(galleryItem);
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  </script>
+</body>
+
+</html>
